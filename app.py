@@ -1,14 +1,32 @@
+import sys
+import subprocess
+
+# FIX 1: Auto-Install System
+# Agar Streamlit server par koi library missing hogi, toh yeh script khud use automatic install kar degi.
+def auto_install(package_name):
+    try:
+        __import__(package_name)
+    except ImportError:
+        # Background mein pip install run karega bina app ko crash kiye
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
+
+# Saari zaroori libraries ko automatic check aur install karna
+auto_install("streamlit")
+auto_install("numpy")
+auto_install("sympy")
+auto_install("torch")
+
+# Ab saari libraries ko safely import karein
 import streamlit as st
 import math
 import numpy as np
 import sympy as sp
 import torch
-import sys
 
 # Python's default 4300 string digit conversion limit ko badhana
 sys.set_int_max_str_digits(200000)
 
-# Page Layout & Title Configuration (Browser Tab Title updated)
+# Page Layout & Title Configuration
 st.set_page_config(
     page_title="Atul Prabhat Laxmi App",
     page_icon="⚡",
@@ -37,7 +55,6 @@ st.markdown("""
             font-size: 1.1rem;
             margin-bottom: 40px;
         }
-        /* Custom styling for matrix digit blocks */
         .matrix-grid {
             font-family: 'Courier New', monospace;
             background: rgba(0, 0, 0, 0.4);
@@ -53,7 +70,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Main App Header updated to your custom title
+# Main App Header
 st.markdown('<h1 class="main-title">⚡ Atul Prabhat Laxmi App</h1>', unsafe_allow_html=True)
 st.markdown('<p class="sub-title">Advanced Large Integer Matrix Analytics Pipeline</p>', unsafe_allow_html=True)
 
@@ -93,11 +110,10 @@ if st.button("🚀 Execute Factorial Pipeline", type="primary", use_container_wi
         # Matrix Column-Wise View Logic
         st.markdown("#### 🔢 Digit Matrix Stream (Clean 10-Column Alignment View)")
         
-        preview_limit = 1000  # Storing only first 1000 digits in preview to prevent UI lagging
+        preview_limit = 1000  
         matrix_lines = []
         for i in range(0, min(total_digits, preview_limit), 10):
             row_chunk = fact_str[i:i+10]
-            # Digits ke beech mein spaces add karna perfect square matrix look ke liye
             formatted_row = " ".join(row_chunk)
             matrix_lines.append(formatted_row)
             
@@ -113,7 +129,7 @@ if st.button("🚀 Execute Factorial Pipeline", type="primary", use_container_wi
         st.info(f"**SymPy Vector Space:** Instantiated `sp.Tuple` enclosing `sp.Integer` formats. Target resolution size: `{total_digits}` values allocated perfectly.")
         
         np_digits_array = np.array(digits_list, dtype=np.int8)
-        st.warning(f"**NumPy Array Profile:** Formatted to memory-optimal tensor mapping. Shape: `{np_digits_array.shape}` | Dtype: `int8` (Safe Execution Profile)")
+        st.warning(f"**NumPy Array Profile:** Formatted to memory-optimal tensor mapping. Shape: `{np_digits_array.shape}` | Dtype: `int8`")
         
         torch_digits_tensor = torch.tensor(digits_list, dtype=torch.int8)
         st.error(f"**PyTorch Tensor Space:** Prepared structural engine pipeline object. Shape: `{list(torch_digits_tensor.shape)}` | Hardware Device Target: `{torch_digits_tensor.device.type.upper()}`")
