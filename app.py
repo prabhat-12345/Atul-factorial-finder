@@ -1,31 +1,21 @@
 import sys
-import subprocess
-
-# Server par modules check karke install karne ka bilkul sahi aur safe tarika
-for package in ["numpy", "sympy", "torch"]:
-    try:
-        __import__(package)
-    except ImportError:
-        subprocess.run([sys.executable, "-m", "pip", "install", package, "--quiet"])
-
-# Ab bina kisi error ke saare modules import honge
 import streamlit as st
 import math
 import numpy as np
 import sympy as sp
 import torch
 
-# Python ki 4300 digits wali limit ko hatane ke liye
+# Python's default 4300 string digit conversion limit ko badhana
 sys.set_int_max_str_digits(200000)
 
-# Web App Page Setup
+# Page Layout & Title Configuration
 st.set_page_config(
     page_title="Atul Prabhat Laxmi App",
     page_icon="⚡",
     layout="centered"
 )
 
-# Custom Dark Gradient UI
+# Custom Glassmorphic Dark UI Theme CSS
 st.markdown("""
     <style>
         .stApp {
@@ -39,6 +29,7 @@ st.markdown("""
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
+            margin-bottom: 5px;
         }
         .sub-title {
             color: #94a3b8;
@@ -61,10 +52,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Main App Header
 st.markdown('<h1 class="main-title">⚡ Atul Prabhat Laxmi App</h1>', unsafe_allow_html=True)
 st.markdown('<p class="sub-title">Advanced Large Integer Matrix Analytics Pipeline</p>', unsafe_allow_html=True)
 
-# Input Field
+# User Input Target Value
 num = st.number_input("Enter Integer Target Value:", min_value=0, max_value=5000, value=1000, step=1)
 
 # Trailing Zeros count karne ka formula
@@ -78,15 +70,18 @@ def count_trailing_zeros(n):
 if st.button("🚀 Execute Factorial Pipeline", type="primary", use_container_width=True):
     with st.spinner("Processing deep matrix calculation..."):
         
+        # High-performance Core Factorial Evaluation
         fact_value = math.factorial(num)
         fact_str = str(fact_value)
         total_digits = len(fact_str)
         trailing_zeros = count_trailing_zeros(num)
+        
+        # Digits List parsing for framework export
         digits_list = [int(d) for d in fact_str]
         
         st.markdown("### 📊 Engine Computations")
         
-        # Display Metrics
+        # Display Core Metrics (Digits & Trailing Zeros)
         col1, col2, col3 = st.columns(3)
         col1.metric("Target Factorial", f"{num}!")
         col2.metric("Total Digits", f"{total_digits:,}")
@@ -94,8 +89,9 @@ if st.button("🚀 Execute Factorial Pipeline", type="primary", use_container_wi
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # Column-wise 10 Grid Layout
+        # Matrix Column-Wise View Logic
         st.markdown("#### 🔢 Digit Matrix Stream (Clean 10-Column Alignment View)")
+        
         preview_limit = 1000  
         matrix_lines = []
         for i in range(0, min(total_digits, preview_limit), 10):
@@ -110,17 +106,17 @@ if st.button("🚀 Execute Factorial Pipeline", type="primary", use_container_wi
         st.markdown(f'<div class="matrix-grid">{matrix_html}</div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # Library Outputs Info
+        # Framework Export Data Structures Information
         st.markdown("### 📦 Framework Export Vectors")
         st.info(f"**SymPy Vector Space:** Instantiated `sp.Tuple` enclosing `sp.Integer` formats.")
         
         np_digits_array = np.array(digits_list, dtype=np.int8)
-        st.warning(f"**NumPy Array Profile:** Shape: `{np_digits_array.shape}` | Dtype: `int8`")
+        st.warning(f"**NumPy Array Profile:** Formatted to memory-optimal tensor mapping. Shape: `{np_digits_array.shape}` | Dtype: `int8`")
         
         torch_digits_tensor = torch.tensor(digits_list, dtype=torch.int8)
-        st.error(f"**PyTorch Tensor Space:** Shape: `{list(torch_digits_tensor.shape)}` | Target Device: `{torch_digits_tensor.device.type.upper()}`")
+        st.error(f"**PyTorch Tensor Space:** Prepared structural engine pipeline object. Shape: `{list(torch_digits_tensor.shape)}` | Hardware Device Target: `{torch_digits_tensor.device.type.upper()}`")
         
-        # Download Dataset
+        # Text file stream & download
         st.markdown("### 💾 Storage & Data Streams")
         file_content = f"--- Factorial Calculation Data Profile ---\nTarget: {num}!\nTotal Digit Length: {total_digits}\nTotal Trailing Zeros: {trailing_zeros}\n\n{fact_str}"
         
