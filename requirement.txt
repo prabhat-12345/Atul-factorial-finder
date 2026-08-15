@@ -1,0 +1,4 @@
+streamlit
+numpy
+sympy
+torch --index-url https://pytorch.org
