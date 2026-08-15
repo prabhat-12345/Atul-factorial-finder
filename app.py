@@ -1,22 +1,4 @@
 import sys
-import subprocess
-
-# FIX 1: Auto-Install System
-# Agar Streamlit server par koi library missing hogi, toh yeh script khud use automatic install kar degi.
-def auto_install(package_name):
-    try:
-        __import__(package_name)
-    except ImportError:
-        # Background mein pip install run karega bina app ko crash kiye
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
-
-# Saari zaroori libraries ko automatic check aur install karna
-auto_install("streamlit")
-auto_install("numpy")
-auto_install("sympy")
-auto_install("torch")
-
-# Ab saari libraries ko safely import karein
 import streamlit as st
 import math
 import numpy as np
