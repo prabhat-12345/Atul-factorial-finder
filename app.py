@@ -10,7 +10,7 @@ sys.set_int_max_str_digits(200000)
 
 # Page Layout & Title Configuration (Browser Tab Title updated)
 st.set_page_config(
-    page_title="Atul Prabhat Laxmi factorial finder App",
+    page_title="Atul Prabhat Laxmi App",
     page_icon="⚡",
     layout="centered"
 )
@@ -128,5 +128,5 @@ if st.button("🚀 Execute Factorial Pipeline", type="primary", use_container_wi
             file_name=f"factorial_{num}_matrix.txt",
             mime="text/plain",
             use_container_width=True
-      )
-      
+        )
+        
